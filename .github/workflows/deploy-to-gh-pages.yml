@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+on:
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+        with:
+          persist-credentials: false
+
+      - name: Install and Build 🚧
+        run: |
+          npm cache clean --force
+          npm install
+          npm run clean
+          npm run build
+        env:
+          GATSBY_GOOGLE_FORM_ID: ${{ secrets.GOOGLE_FORM_ID }}
+          GATSBY_GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
+          GOOGLE_SPREADSHEET_GID: ${{ secrets.GOOGLE_SPREADSHEET_GID }}
+          NODE_OPTIONS: "--max-old-space-size=8192"
+          GATSBY_CPU_COUNT: 2
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+#          repository-name: blopa/pablo.gg
+          branch: gh-pages
+          folder: public
+          clean: true
+          single-commit: true

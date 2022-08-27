@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "home-finder",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Find a home",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "blopa",
   "dependencies": {
     "gatsby": "^4.21.1",
     "gatsby-plugin-image": "^2.21.0",
@@ -11,11 +11,14 @@
     "gatsby-plugin-sharp": "^4.21.0",
     "gatsby-source-filesystem": "^4.21.1",
     "gatsby-transformer-sharp": "^4.21.0",
+    "node-fetch": "^2.6.7",
     "prop-types": "^15.8.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "npm-check-updates": "^16.0.6",
     "prettier": "^2.7.1"
   },
   "keywords": [
@@ -29,7 +32,8 @@
     "start": "gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "bump": "ncu -u -t minor"
   },
   "repository": {
     "type": "git",
