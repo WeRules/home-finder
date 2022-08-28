@@ -2,3 +2,14 @@ public
 static
 .cache
 content
+local_content
+plugins
+
+# disable eslint for the whole project
+# plugins
+# src
+# gatsby-browser.js
+# gatsby-config.js
+# gatsby-config.plugins.js
+# gatsby-node.js
+# gatsby-ssr.js
