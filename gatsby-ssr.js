@@ -1,9 +1,7 @@
 /**
  * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
  *
- * See: https://www.gatsbyjs.com/docs/ssr-apis/
+ * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 
-exports.onRenderBody = ({ setHtmlAttributes }) => {
-  setHtmlAttributes({ lang: `en` })
-}
+// You can delete this file if you're not using it

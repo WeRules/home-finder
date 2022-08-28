@@ -1,49 +1,105 @@
-const nodeFetch = require('node-fetch');
-const { read, utils } = require('xlsx');
+const path = require('path');
+const { promises: fs } = require('fs');
+const packageJson = require('./package.json');
 
-const downloadSpreadsheetFile = async (spreadsheetId, sheetId = 0, forceCors = false) => {
-  let url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=xlsx&gid=${sheetId}`;
-  if (forceCors) {
-    url = `https://cors-anywhere.herokuapp.com/${url}`;
-  }
+const TEMPLATES_PATH = path.resolve(__dirname, 'src/components/ResumeTemplates');
+const disabledTemplates = ['Compact', 'VanHack'];
+const ignoredPages = ['/Home/'];
+const {
+    convertToKebabCase,
+} = require('./src/utils/gatsby-node-helpers');
 
-  const response = await nodeFetch(url);
-  // eslint-disable-next-line no-return-await
-  return await response.blob();
+const myCreatePage = (
+    createPage,
+    page,
+    pagePath,
+    matchPath,
+    language
+) => {
+    createPage({
+        ...page,
+        path: pagePath,
+        matchPath,
+        context: {
+            ...page.context,
+            intl: {
+                ...page.context.intl,
+                originalPath: convertToKebabCase(page.context.intl.originalPath),
+            },
+            locale: language,
+        },
+    });
 };
 
-const getGoogleFormData = async (googleFormId) =>
-    nodeFetch(`https://docs.google.com/forms/d/e/${googleFormId}/viewform?embedded=true`, {
-      method: 'GET',
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error('Network request failed');
-      }
+exports.onCreatePage = async ({ page, actions }) => {
+    const { createPage, deletePage } = actions;
+    const { locale } = page.context; // from post content
+    const { language } = page.context.intl; // from accessed site
+    let matchPath = page.matchPath;
+    let pagePath = convertToKebabCase(page.path);
+    deletePage(page);
 
-      return response.text().then((data) => {
-        let loadData = data.split('FB_PUBLIC_LOAD_DATA_');
-        loadData = loadData[1].split(';');
-        // eslint-disable-next-line no-new-func
-        const getLoadData = new Function(`const result${loadData[0]}; return result`);
-        // let shuffleSeed = data.split('data-shuffle-seed="');
-        // shuffleSeed = shuffleSeed[1].split('"');
-        return {
-          loadData: getLoadData(),
-          // shuffleSeed: shuffleSeed[0],
-        };
-      });
+    if (ignoredPages.includes(page.context.intl.originalPath)) {
+        return;
+    }
+
+    if (page.context.intl.originalPath === '/Build/') {
+        matchPath = `${pagePath}*`;
+    }
+
+    if (page.context.intl.originalPath === '/ResumeViewer/') {
+        if (
+            page.internalComponentName === 'ComponentResumeViewer'
+            && language !== 'en'
+        ) {
+            return;
+        }
+
+        const templates = await fs.readdir(TEMPLATES_PATH);
+        templates.filter((template) => !disabledTemplates.includes(template))
+            .forEach((template) => {
+                pagePath = `/view/${template}`.toLocaleLowerCase();
+                matchPath = `${pagePath}/*`;
+                myCreatePage(
+                    createPage,
+                    page,
+                    pagePath,
+                    matchPath,
+                    language
+                );
+            });
+
+        return;
+    }
+
+    myCreatePage(
+        createPage,
+        page,
+        pagePath,
+        matchPath,
+        language
+    );
+};
+
+exports.onCreateWebpackConfig = async ({
+    plugins,
+    actions,
+}) => {
+    const templates = await fs.readdir(TEMPLATES_PATH);
+
+    // TODO this fixes the 'React Refresh Babel' error when NODE_ENV is 'local' for some reason
+    if (process.env.NODE_ENV !== 'production') {
+        process.env.NODE_ENV = 'development';
+    }
+
+    actions.setWebpackConfig({
+        plugins: [
+            plugins.define({
+                TEMPLATES_LIST: JSON.stringify(
+                    templates.filter((template) => !disabledTemplates.includes(template))
+                ),
+                VERSION: JSON.stringify(packageJson.version),
+            }),
+        ],
     });
-
-exports.createPages = async ({ actions }) => {
-  const { createPage } = actions
-  const googleFormsData = await getGoogleFormData(process.env.GATSBY_GOOGLE_FORM_ID);
-
-  createPage({
-    path: "/using-dsg",
-    component: require.resolve("./src/templates/FormPage.jsx"),
-    context: {
-      googleFormsData,
-    },
-    // defer: true,
-  })
-}
+};

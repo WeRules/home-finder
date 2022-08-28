@@ -30,7 +30,7 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+#          token: ${{ secrets.ACCESS_TOKEN }}
 #          repository-name: blopa/pablo.gg
           branch: gh-pages
           folder: public
