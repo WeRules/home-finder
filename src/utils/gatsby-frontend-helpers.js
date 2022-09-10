@@ -20,6 +20,7 @@ export const getSnackbarMessage = () => {
 
     const messageData = localStorage.getItem(LOCALSTORAGE_MESSAGE_KEY);
     if (messageData) {
+        clearSnackbarMessage();
         return messageData.split(':');
     }
 

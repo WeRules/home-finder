@@ -25,7 +25,7 @@ function SEO({
                     }
                 }
                 baseSiteImage: file(
-                    absolutePath: { regex: "/base_site_image.jpg/" }
+                    absolutePath: { regex: "/base_site_image.png/" }
                 ) {
                     childImageSharp {
                         fixed(width: 1200) {
