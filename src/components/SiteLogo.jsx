@@ -1,5 +1,4 @@
 /* globals VERSION */
-import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,7 +21,7 @@ function SiteLogo() {
             className={classes.logoText}
             variant="h5"
         >
-            Resume Builder
+            Home Finder
             <span className={classes.versionText}>
                 {` v ${buildVersion}`}
             </span>

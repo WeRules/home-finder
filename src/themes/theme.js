@@ -1,11 +1,11 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
 const baseTheme = {
     // TODO
 };
 
 // A custom theme for this app
-export const darkTheme = createMuiTheme({
+export const darkTheme = createTheme({
     ...baseTheme,
     palette: {
         type: 'dark',
@@ -15,7 +15,7 @@ export const darkTheme = createMuiTheme({
     },
 });
 
-export const lightTheme = createMuiTheme({
+export const lightTheme = createTheme({
     ...baseTheme,
     palette: {
         type: 'light',

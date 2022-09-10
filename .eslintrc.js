@@ -21,7 +21,7 @@ module.exports = {
         'plugin:jest/recommended',
         'plugin:sonarjs/recommended',
         'prettier',
-        'plugin:prettier/recommended',
+        // 'plugin:prettier/recommended',
     ],
     globals: {
         adyen: true,
@@ -75,6 +75,7 @@ module.exports = {
         'sonarjs/no-nested-template-literals': 'off',
         'sonarjs/no-small-switch': 'warn',
         'no-unused-vars': 'off',
+        'semi': [2, 'always'],
         'unused-imports/no-unused-imports': 'warn',
         'unused-imports/no-unused-vars': [
             'warn',

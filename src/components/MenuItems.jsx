@@ -1,4 +1,3 @@
-import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -50,32 +49,14 @@ function MenuItems({
                     inset
                 >
                     <Link
-                        to="/build"
+                        to="/form"
                         onClick={onItemClick}
                     >
                         <Typography
                             className={classes.menuLink}
                             variant="subtitle1"
                         >
-                            {intl.formatMessage({ id: 'build_resume' })}
-                        </Typography>
-                    </Link>
-                </ListItemText>
-                <ListItemText
-                    className={classNames({
-                        [classes.menuItem]: !isDrawer,
-                    })}
-                    inset
-                >
-                    <Link
-                        to="/upload"
-                        onClick={onItemClick}
-                    >
-                        <Typography
-                            className={classes.menuLink}
-                            variant="subtitle1"
-                        >
-                            {intl.formatMessage({ id: 'upload_resume' })}
+                            {intl.formatMessage({ id: 'fill_form' })}
                         </Typography>
                     </Link>
                 </ListItemText>

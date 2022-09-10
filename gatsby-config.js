@@ -4,12 +4,12 @@ const defaultLanguage = 'en';
 
 module.exports = {
     siteMetadata: {
-        title: 'Resume Builder',
+        title: 'Home Finder',
         author: 'blopa',
-        summary: 'Build resumes',
+        summary: 'Find homes for you',
         defaultLanguage,
-        description: 'Resume Builder',
-        siteUrl: 'https://resume-builder.js.org/',
+        description: 'Home Finder',
+        siteUrl: 'https://blopa.github.io/home-finder/',
         social: {
             twitter: 'thepiratepablo',
         },

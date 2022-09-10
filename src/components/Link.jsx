@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading, no-shadow */
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Link as MuiLink } from '@material-ui/core';
 import { Link as IntlLink } from 'gatsby-plugin-react-intl';
 import PropTypes from 'prop-types';

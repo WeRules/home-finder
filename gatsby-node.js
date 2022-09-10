@@ -1,6 +1,6 @@
 require('dotenv').config({
     path: '.env',
-})
+});
 
 const packageJson = require('./package.json');
 
@@ -54,3 +54,12 @@ exports.onCreateWebpackConfig = async ({
         ],
     });
 };
+
+// exports.onCreateBabelConfig = ({ actions }) => {
+//     actions.setBabelPlugin({
+//         name: '@babel/plugin-transform-react-jsx',
+//         options: {
+//             runtime: 'automatic',
+//         },
+//     });
+// };

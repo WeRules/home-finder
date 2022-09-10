@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MenuItem, Select } from '@material-ui/core';
 import { IconFlagBR, IconFlagUS } from 'material-ui-flags';
 import { makeStyles } from '@material-ui/core/styles';

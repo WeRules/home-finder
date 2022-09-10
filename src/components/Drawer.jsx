@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useContext } from 'react';
+import { Fragment, useCallback, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer } from '@material-ui/core';
 
