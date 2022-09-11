@@ -103,7 +103,7 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                     // these fields are hidden, so no need for translation
                     label: formName,
                     ...formName === 'links' && { value: links.join('\n') },
-                    ...formName === 'links' && { value: secret },
+                    ...formName === 'secret' && { value: secret },
                     style: { display: 'none' },
                 };
             } else {
@@ -120,7 +120,7 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                 };
             }
 
-            // console.log({formType});
+            console.log({ formType, formName, formCode });
             if (formType === SHORT_ANSWER_TYPE) {
                 return (
                     <Tooltip
@@ -151,7 +151,13 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                 );
             } else if (formType === CHECK_BOX_TYPE) {
                 return (
-                    <Checkbox key={formCode} {...extraProps} checked={isAdmin} />
+                    <Checkbox
+                        key={formCode}
+                        name={`entry.${formCode}`}
+                        {...extraProps}
+                        checked={isAdmin}
+                        {...isAdmin && { value: formName }}
+                    />
                 );
             }
         });
@@ -161,12 +167,14 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
         // https://stackoverflow.com/a/8558731
         if (isFormSubmitted) {
             setSnackbarMessage('your_data_submitted', SUCCESS_MESSAGE_TYPE);
-            window.location = urlWithSecret;
-            // window.location = window.location.href;
+            // window.location = urlWithSecret;
+            window.location = window.location.href;
         }
-    }, [isFormSubmitted, urlWithSecret]);
+    }, [isFormSubmitted]);
 
-    const onFormSubmit = useCallback(() => {
+    const onFormSubmit = useCallback((e) => {
+        // debugger;
+        // const data = Object.fromEntries(new FormData(e.target).entries());
         setIsFormSubmitted(true);
         onSubmit();
     }, [onSubmit, setIsFormSubmitted]);
@@ -203,6 +211,7 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                     id="hidden_iframe"
                     style={{ display: 'none' }}
                     onLoad={onIframeLoad}
+                    // src={`https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/viewform?embedded=true`}
                 />
                 {!isAdmin && (
                     <div>

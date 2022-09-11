@@ -10,7 +10,7 @@ module.exports = {
         summary: 'Find homes for you',
         defaultLanguage,
         description: 'Home Finder',
-        siteUrl: 'https://blopa.github.io/home-finder/',
+        siteUrl: 'https://werules.github.io/home-finder/',
         social: {
             twitter: 'thepiratepablo',
         },
