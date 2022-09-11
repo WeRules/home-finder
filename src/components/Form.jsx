@@ -12,7 +12,7 @@ import classNames from "classnames";
 import { SUCCESS_MESSAGE_TYPE } from '../utils/constants';
 
 // Utils
-import { setSnackbarMessage } from '../utils/gatsby-frontend-helpers';
+import { isClient, setSnackbarMessage } from '../utils/gatsby-frontend-helpers';
 
 const useStyles = makeStyles((theme) => ({
     copyBlockWrapper: {
@@ -58,8 +58,12 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
     // console.log(isFormValid);
 
     const urlSecret = useMemo(() => {
-        const url = new URL(window.location.href);
-        return url.searchParams.get('secret');
+        if (isClient()) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get('secret');
+        }
+
+        return '';
     }, []);
 
     const secret = useMemo(() => {
@@ -70,7 +74,14 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
         return uuid();
     }, [urlSecret]);
 
-    const url = window.location.href.replace(window.location.search, '');
+    const url = useMemo(() => {
+        if (isClient()) {
+            return window.location.href.replace(window.location.search, '');
+        }
+
+        return '';
+    }, []);
+
     const urlWithSecret = `${url}?secret=${secret}`;
     const adminUrl = urlWithSecret.replace('/form?', '/admin?');
 

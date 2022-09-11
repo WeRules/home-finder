@@ -12,6 +12,8 @@ export const setSnackbarMessage = (message, severity) => {
     );
 };
 
+export const isClient = () => typeof window !== 'undefined';
+
 export const getSnackbarMessage = () => {
     // because of the SSR
     if (typeof localStorage === 'undefined') {

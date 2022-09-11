@@ -1,5 +1,4 @@
 const nodeFetch = require('node-fetch');
-const { read, utils } = require('xlsx');
 
 const convertToKebabCase = (string) => string.replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace(/\s+/g, '-')
