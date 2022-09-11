@@ -7,9 +7,9 @@ const { writeFileSync, mkdirSync, cpSync } = require('fs');
 
 // Create .env file
 const envVariables = {
-    'GATSBY_GOOGLE_SPREADSHEET_ID': process.env.GATSBY_GOOGLE_SPREADSHEET_ID,
-    'GATSBY_GOOGLE_SPREADSHEET_GID': process.env.GATSBY_GOOGLE_SPREADSHEET_GID,
-    'GATSBY_USER_AGENT': process.env.GATSBY_USER_AGENT,
+    'GOOGLE_SPREADSHEET_ID': process.env.GOOGLE_SPREADSHEET_ID,
+    'GOOGLE_SPREADSHEET_GID': process.env.GOOGLE_SPREADSHEET_GID,
+    'USER_AGENT': process.env.USER_AGENT,
 };
 
 mkdirSync(path.resolve(__dirname, 'build'), { recursive: true });

@@ -25,7 +25,7 @@ console.log('pastResults:', pastResults);
 const results = {};
 
 const runTask = async () => {
-  const spreadsheet = await downloadSpreadsheetFile(process.env.GATSBY_GOOGLE_SPREADSHEET_ID, process.env.GATSBY_GOOGLE_SPREADSHEET_GID);
+  const spreadsheet = await downloadSpreadsheetFile(process.env.GOOGLE_SPREADSHEET_ID, process.env.GATSBY_GOOGLE_SPREADSHEET_GID);
   const workbook = read(await spreadsheet.arrayBuffer(), { type: 'array' });
   const sheetName = workbook.SheetNames[0];
   const spreadsheetData = utils.sheet_to_json(workbook.Sheets[sheetName], { raw: false });
@@ -75,14 +75,14 @@ const sendEmail = async (links, email, secret) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.GATSBY_EMAIL_USER,
-      pass: process.env.GATSBY_EMAIL_PASSWORD
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
     }
   });
 
   const htmlTemplate = readFileSync(path.resolve(__dirname, 'template.html'), { encoding: 'utf8', flag: 'r' });
   const mailOptions = {
-    from: process.env.GATSBY_EMAIL_USER,
+    from: process.env.EMAIL_USER,
     to: email,
     subject: 'New Houses Found',
     // text: links.join('\n'),
@@ -115,7 +115,7 @@ const runPuppeteer = async (url, email) => {
 
   const page = await browser.newPage();
   // https://stackoverflow.com/a/51732046/4307769 https://stackoverflow.com/a/68780400/4307769
-  await page.setUserAgent(process.env.GATSBY_USER_AGENT);
+  await page.setUserAgent(process.env.USER_AGENT);
 
   console.log('going to website', url);
   await page.goto(url, { waitUntil: 'domcontentloaded' });

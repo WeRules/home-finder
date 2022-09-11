@@ -47,11 +47,11 @@ jobs:
           npm install
           npm run build
         env:
-          GATSBY_GOOGLE_SPREADSHEET_ID: ${{ secrets.GATSBY_GOOGLE_SPREADSHEET_ID }}
-          GATSBY_GOOGLE_SPREADSHEET_GID: ${{ secrets.GATSBY_GOOGLE_SPREADSHEET_GID }}
-          GATSBY_USER_AGENT: ${{ secrets.GATSBY_USER_AGENT }}
-          GATSBY_EMAIL_USER: ${{ secrets.GATSBY_EMAIL_USER}}
-          GATSBY_EMAIL_PASSWORD: ${{ secrets.GATSBY_EMAIL_PASSWORD}}
+          GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
+          GOOGLE_SPREADSHEET_GID: ${{ secrets.GOOGLE_SPREADSHEET_GID }}
+          USER_AGENT: ${{ secrets.USER_AGENT }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER}}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD}}
           NODE_OPTIONS: "--max-old-space-size=8192"
 
       - name: Deploy 🚀
