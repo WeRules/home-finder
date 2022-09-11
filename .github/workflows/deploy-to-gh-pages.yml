@@ -44,8 +44,8 @@ jobs:
       - name: Install and Build 🚧
         run: |
           npm cache clean --force
-          npm install
-          npm run build
+#          npm install
+          npm run build-scraper
         env:
           GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
           GOOGLE_SPREADSHEET_GID: ${{ secrets.GOOGLE_SPREADSHEET_GID }}

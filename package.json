@@ -17,7 +17,8 @@
         "start": "npm run develop",
         "serve": "gatsby serve",
         "bump": "ncu -u -t minor",
-        "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+        "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+        "build-scraper": "npm run --prefix scraper build"
     },
     "dependencies": {
         "@babel/plugin-proposal-class-properties": "^7.18.6",
