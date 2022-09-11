@@ -3,6 +3,7 @@ const plugins = require('./gatsby-config.plugins');
 const defaultLanguage = 'en';
 
 module.exports = {
+    pathPrefix: 'home-finder',
     siteMetadata: {
         title: 'Home Finder',
         author: 'blopa',

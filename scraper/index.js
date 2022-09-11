@@ -24,6 +24,7 @@ writeFileSync(path.resolve(__dirname, 'build', '.env'), Object.entries(envVariab
     'package.json',
     'package-lock.json',
     'scraper.js',
+    'template.html',
 ].forEach((fileName) => {
     cpSync(path.resolve(__dirname, fileName), path.resolve(__dirname, 'build', fileName), {recursive: true});
 });

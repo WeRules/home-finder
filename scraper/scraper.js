@@ -36,11 +36,11 @@ const runTask = async () => {
       continue;
     }
 
-    await scrape(row.links.split('\n'), row.email);
+    await scrape(row.links.split('\n'), row.email, row.secret);
   }
 };
 
-const scrape = async (urls, email) => {
+const scrape = async (urls, email, secret) => {
   if (!results[email]) {
     results[email] = [];
   }
@@ -68,24 +68,29 @@ const scrape = async (urls, email) => {
     );
   }
 
-  await sendEmail(results[email], email);
+  await sendEmail(results[email], email, secret);
 };
 
-const sendEmail = async (links, email) => {
+const sendEmail = async (links, email, secret) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'home-finder@werules.com',
-      pass: 'mpqttcmtmbswzpck'
+      user: process.env.GATSBY_EMAIL_USER,
+      pass: process.env.GATSBY_EMAIL_PASSWORD
     }
   });
 
+  const htmlTemplate = readFileSync(path.resolve(__dirname, 'template.html'), { encoding: 'utf8', flag: 'r' });
   const mailOptions = {
-    from: 'home-finder@werules.com',
+    from: process.env.GATSBY_EMAIL_USER,
     to: email,
-    subject: 'Sending Email using Node.js',
-    text: links.join('\n'),
-    html: links.join('\n'),
+    subject: 'New Houses Found',
+    // text: links.join('\n'),
+    html: htmlTemplate
+        .replace('{{SECRET}}', secret)
+        .replace('{{LINKS_LIST}}', links.map((link) => {
+          return `<li><a href="${link}">${link}</a></li>`;
+        }).join('\n')),
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -100,7 +105,7 @@ const sendEmail = async (links, email) => {
 const runPuppeteer = async (url, email) => {
   console.log('opening headless browser');
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: [`--window-size=${WIDTH},${HEIGHT}`],
     defaultViewport: {
       width: WIDTH,
@@ -138,7 +143,7 @@ const runPuppeteer = async (url, email) => {
             }
           });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   } else if (url.includes('vbo.nl/')) {
     try {
@@ -170,7 +175,7 @@ const runPuppeteer = async (url, email) => {
         }
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   } else if (url.includes('huislijn.nl/')) {
     try {
@@ -189,14 +194,15 @@ const runPuppeteer = async (url, email) => {
 
       for (const div of result) {
         const anchor = div?.querySelector('a');
-        const path = anchor?.href;
+        const urlPath = anchor?.href;
 
+        const path = `https://www.huislijn.nl${urlPath}`;
         if (path && !pastResults[email]?.includes(path)) {
           results[email].push(path);
         }
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   } else if (url.includes('zah.nl/')) {
     try {
@@ -237,7 +243,7 @@ const runPuppeteer = async (url, email) => {
         }
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   } else if (url.includes('pararius.nl/')) {
     try {
@@ -271,7 +277,7 @@ const runPuppeteer = async (url, email) => {
         }
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   } else if (url.includes('jaap.nl/')) {
     try {
@@ -298,7 +304,7 @@ const runPuppeteer = async (url, email) => {
         }
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   } else if (url.includes('hoekstraenvaneck.nl/')) {
     try {
@@ -326,7 +332,7 @@ const runPuppeteer = async (url, email) => {
         }
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 

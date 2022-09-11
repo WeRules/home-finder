@@ -99,13 +99,6 @@ const HomePage = () => {
                     color="textPrimary"
                     variant="body1"
                 >
-                    {intl.formatMessage({ id: 'disclaimer_description_2' })}
-                </Typography>
-                <Typography
-                    className={classes.paragraph}
-                    color="textPrimary"
-                    variant="body1"
-                >
                     <a
                         href="https://github.com/werules/home-finder"
                         target="_blank"
