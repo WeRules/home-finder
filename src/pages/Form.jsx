@@ -64,7 +64,7 @@ const HomePage = ({ pageContext }) => {
                 >
                     {intl.formatMessage({ id: 'what_is_home_finder' })}
                 </Typography>
-                <Form onSubmit={() => {}} googleFormData={googleFormData} />
+                <Form onSubmit={() => {}} googleFormData={googleFormData} showAdminUrl />
             </div>
         </Layout>
     );

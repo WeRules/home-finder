@@ -5,6 +5,7 @@ import { useIntl } from 'gatsby-plugin-react-intl';
 // Components
 import SEO from '../components/SEO';
 import Layout from '../components/Layout';
+import Form from "../components/Form";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const HomePage = ({ pageContext }) => {
     const intl = useIntl();
     const classes = useStyles();
-    // const { spreadsheetData } = pageContext;
+    const { googleFormData } = pageContext;
 
     return (
         <Layout>
@@ -61,6 +62,7 @@ const HomePage = ({ pageContext }) => {
                 >
                     {intl.formatMessage({ id: 'what_is_home_finder' })}
                 </Typography>
+                <Form googleFormData={googleFormData} onSubmit={() => {}} isAdmin />
             </div>
         </Layout>
     );

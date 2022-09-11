@@ -6,7 +6,7 @@ on:
 #      - main
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-gatsby:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,9 +21,10 @@ jobs:
           npm run clean
           npm run build
         env:
-          GATSBY_GOOGLE_FORM_ID: ${{ secrets.GOOGLE_FORM_ID }}
-          GATSBY_GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
-          GOOGLE_SPREADSHEET_GID: ${{ secrets.GOOGLE_SPREADSHEET_GID }}
+          GATSBY_GOOGLE_FORM_ID: ${{ secrets.GATSBY_GOOGLE_FORM_ID }}
+          GATSBY_GOOGLE_SPREADSHEET_ID: ${{ secrets.GATSBY_GOOGLE_SPREADSHEET_ID }}
+          GATSBY_GOOGLE_SPREADSHEET_GID: ${{ secrets.GATSBY_GOOGLE_SPREADSHEET_GID }}
+          GATSBY_USER_AGENT: ${{ secrets.GATSBY_USER_AGENT }}
           NODE_OPTIONS: "--max-old-space-size=8192"
           GATSBY_CPU_COUNT: 2
 
@@ -34,5 +35,33 @@ jobs:
 #          repository-name: blopa/pablo.gg
           branch: gh-pages
           folder: public
+          clean: true
+          single-commit: true
+
+  deploy-scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+        with:
+          persist-credentials: false
+
+      - name: Install and Build 🚧
+        run: |
+          npm cache clean --force
+          npm run build
+        env:
+          GATSBY_GOOGLE_SPREADSHEET_ID: ${{ secrets.GATSBY_GOOGLE_SPREADSHEET_ID }}
+          GATSBY_GOOGLE_SPREADSHEET_GID: ${{ secrets.GATSBY_GOOGLE_SPREADSHEET_GID }}
+          GATSBY_USER_AGENT: ${{ secrets.GATSBY_USER_AGENT }}
+          NODE_OPTIONS: "--max-old-space-size=8192"
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository-name: werules/home-finder-private
+          branch: gh-pages
+          folder: scraper/build
           clean: true
           single-commit: true

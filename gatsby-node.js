@@ -20,7 +20,7 @@ exports.onCreatePage = async ({ page, actions }) => {
     }
 
     const googleFormData = await getGoogleFormData(process.env.GATSBY_GOOGLE_FORM_ID);
-    // const spreadsheet = await downloadSpreadsheetFile(process.env.GOOGLE_SPREADSHEET_ID, process.env.GOOGLE_SPREADSHEET_GID);
+    // const spreadsheet = await downloadSpreadsheetFile(process.env.GATSBY_GOOGLE_SPREADSHEET_ID, process.env.GOOGLE_SPREADSHEET_GID);
     // const workbook = read(await spreadsheet.arrayBuffer(), { type: 'array' });
     // const sheetName = workbook.SheetNames[0];
     // const spreadsheetData = utils.sheet_to_json(workbook.Sheets[sheetName], { raw: false });

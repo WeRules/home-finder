@@ -2,7 +2,7 @@
     "name": "home-finder-script",
     "version": "0.1.0",
     "description": "Home Finder Script",
-    "main": "scraper.js",
+    "main": "index.js",
     "author": "Pablo Pirata",
     "license": "MIT",
     "scripts": {
@@ -10,12 +10,14 @@
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "bump": "ncu -u -t minor",
         "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
-        "start": "node scraper.js"
+        "build": "node index.js",
+        "task": "node scraper.js"
     },
     "dependencies": {
         "dotenv": "^16.0.2",
         "jsdom": "^20.0.0",
         "node-fetch": "^2.6.7",
+        "nodemailer": "^6.7.8",
         "puppeteer": "^17.1.3",
         "xlsx": "^0.18.5"
     }

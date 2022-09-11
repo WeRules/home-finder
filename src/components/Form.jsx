@@ -48,14 +48,14 @@ const SHORT_ANSWER_TYPE = 0;
 const LONG_ANSWER_TYPE = 1;
 const CHECK_BOX_TYPE = 4;
 
-function Form({ googleFormData, onSubmit, className = null }) {
+function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false, isAdmin = false }) {
     const intl = useIntl();
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(isAdmin);
     const { loadData } = googleFormData;
     const classes = useStyles();
     const [links, setLinks] = useState(['']);
-    console.log(isFormValid);
+    // console.log(isFormValid);
 
     const urlSecret = useMemo(() => {
         const url = new URL(window.location.href);
@@ -80,12 +80,13 @@ function Form({ googleFormData, onSubmit, className = null }) {
             const formType = data[3];
             const formCode = data[4][0][0];
             const isMandatory = Boolean(data[4][0][2]);
+            const mock = 'test@test.com';
 
             let extraProps = {
                 style: { margin: '5px 0' },
             };
 
-            if (['links', 'secret', 'enable'].includes(formName)) {
+            if (['links', 'secret', 'disable'].includes(formName)) {
                 extraProps = {
                     ...extraProps,
                     // these fields are hidden, so no need for translation
@@ -121,8 +122,8 @@ function Form({ googleFormData, onSubmit, className = null }) {
                             disabled={isFormSubmitted}
                             fullWidth
                             type={formName === 'email' ? 'email' : 'text'}
-                            // eslint-disable-next-line react/jsx-props-no-spreading
                             {...extraProps}
+                            {...isAdmin && { value: mock, style: { display: 'none' } }}
                         />
                     </Tooltip>
                 );
@@ -133,17 +134,17 @@ function Form({ googleFormData, onSubmit, className = null }) {
                         name={`entry.${formCode}`}
                         disabled={isFormSubmitted}
                         // type="text"
-                        // eslint-disable-next-line react/jsx-props-no-spreading
                         {...extraProps}
+                        {...isAdmin && { value: mock, style: { display: 'none' } }}
                     />
                 );
             } else if (formType === CHECK_BOX_TYPE) {
                 return (
-                    <Checkbox key={formCode} {...extraProps} checked />
+                    <Checkbox key={formCode} {...extraProps} checked={isAdmin} />
                 );
             }
         });
-    }, [loadData, links, secret, intl, isFormSubmitted]);
+    }, [loadData, links, secret, intl, isFormSubmitted, isAdmin]);
 
     const onIframeLoad = useCallback(() => {
         // https://stackoverflow.com/a/8558731
@@ -192,42 +193,45 @@ function Form({ googleFormData, onSubmit, className = null }) {
                     style={{ display: 'none' }}
                     onLoad={onIframeLoad}
                 />
-                <div>
-                    {links.map((v, i) => (
+                {!isAdmin && (
+                    <div>
+                        {links.map((v, i) => (
+                            <Tooltip
+                                key={i}
+                                placement="bottom-start"
+                                title={intl.formatMessage({ id: 'fill_here_links_sites' })}
+                            >
+                                <TextField
+                                    name={`links.${i}`}
+                                    type="text"
+                                    label={intl.formatMessage({ id: 'link' })}
+                                    value={links[i]}
+                                    onChange={onAddNewLink(i)}
+                                    className={classes.linkInput}
+                                    disabled={isFormSubmitted}
+                                    fullWidth
+                                    required
+                                    inputProps={{ inputMode: 'text', pattern: '(?:https?):\\/\\/(\\w+:?\\w*)?(\\S+)(:\\d+)?(\\/|\\/([\\w#!:.?+=&%!\\-\\/]))?' }}
+                                    onBlur={handleLinkOnBlur}
+                                />
+                            </Tooltip>
+                        ))}
                         <Tooltip
-                            key={i}
                             placement="bottom-start"
-                            title={intl.formatMessage({ id: 'fill_here_links_sites' })}
+                            title={intl.formatMessage({ id: 'add_more_links' })}
                         >
-                            <TextField
-                                name={`links.${i}`}
-                                type="text"
-                                label={intl.formatMessage({ id: 'link' })}
-                                value={links[i]}
-                                onChange={onAddNewLink(i)}
-                                className={classes.linkInput}
-                                disabled={isFormSubmitted}
-                                fullWidth
-                                inputProps={{ inputMode: 'text', pattern: '(?:https?):\\/\\/(\\w+:?\\w*)?(\\S+)(:\\d+)?(\\/|\\/([\\w#!:.?+=&%!\\-\\/]))?' }}
-                                onBlur={handleLinkOnBlur}
-                            />
+                            <Button
+                                className={classes.addLinksButton}
+                                variant="contained"
+                                color="default"
+                                type="submit"
+                                onClick={onAddNewLinkField}
+                            >
+                                ➕
+                            </Button>
                         </Tooltip>
-                    ))}
-                    <Tooltip
-                        placement="bottom-start"
-                        title={intl.formatMessage({ id: 'add_more_links' })}
-                    >
-                        <Button
-                            className={classes.addLinksButton}
-                            variant="contained"
-                            color="default"
-                            type="submit"
-                            onClick={onAddNewLinkField}
-                        >
-                            ➕
-                        </Button>
-                    </Tooltip>
-                </div>
+                    </div>
+                )}
                 <form
                     action={`https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`}
                     method="post"
@@ -241,12 +245,13 @@ function Form({ googleFormData, onSubmit, className = null }) {
                         color="default"
                         type="submit"
                         key="submit-button"
+                        disabled={!isFormValid}
                     >
-                        {intl.formatMessage({ id: 'submit' })}
+                        {intl.formatMessage({ id: isAdmin ? 'unsubscribe' : 'submit' })}
                     </Button>
                 </form>
             </FormControl>
-            {urlSecret !== null && (
+            {showAdminUrl && urlSecret !== null && (
                 <div className={classes.copyBlockWrapper}>
                     <Typography
                         className={classes.paragraph}
