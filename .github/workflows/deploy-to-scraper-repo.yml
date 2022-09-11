@@ -33,5 +33,5 @@ jobs:
           repository-name: werules/home-finder-private
           branch: main
           folder: scraper/build
-          clean: true
-          single-commit: true
+          clean: false
+          single-commit: false

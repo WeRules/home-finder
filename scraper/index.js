@@ -21,7 +21,6 @@ const { cpSync } = require('fs');
 
 // Copy files
 [
-    'db.json',
     'package.json',
     'package-lock.json',
     'scraper.js',
@@ -31,6 +30,6 @@ const { cpSync } = require('fs');
 });
 
 cpSync(
-    path.resolve(__dirname, 'run-task.yml'), path.resolve(__dirname, 'build', '.github', 'workflows', 'run-task.yml'),
+    path.resolve(__dirname, 'run-task.yml'), path.resolve(__dirname, 'build', 'github', 'workflows', 'run-task.yml'),
     { recursive: true }
 );

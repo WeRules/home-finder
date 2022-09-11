@@ -19,7 +19,13 @@ const downloadSpreadsheetFile = async (spreadsheetId, sheetId = 0) => {
   return await response.blob();
 };
 
-const data = readFileSync(path.resolve(__dirname, 'db.json'), { encoding: 'utf8', flag: 'r' });
+let data;
+try {
+  data = readFileSync(path.resolve(__dirname, 'db.json'), { encoding: 'utf8', flag: 'r' });
+} catch (e) {
+  data = '{}';
+}
+
 const pastResults = JSON.parse(data) || [];
 console.log('pastResults:', pastResults);
 const results = {};
