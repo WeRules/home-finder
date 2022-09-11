@@ -6,7 +6,7 @@ on:
 #      - main
 
 jobs:
-  build-and-deploy-gatsby:
+  deploy-scraper:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,18 +17,21 @@ jobs:
       - name: Install and Build 🚧
         run: |
           npm cache clean --force
-          npm install
-          npm run clean
-          npm run build
+          npm run build-scraper
         env:
-          GATSBY_GOOGLE_FORM_ID: ${{ secrets.GATSBY_GOOGLE_FORM_ID }}
+          GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
+          GOOGLE_SPREADSHEET_GID: ${{ secrets.GOOGLE_SPREADSHEET_GID }}
+          USER_AGENT: ${{ secrets.USER_AGENT }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER}}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD}}
           NODE_OPTIONS: "--max-old-space-size=8192"
-          GATSBY_CPU_COUNT: 2
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
-          branch: gh-pages
-          folder: public
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository-name: werules/home-finder-private
+          branch: main
+          folder: scraper/build
           clean: true
           single-commit: true
