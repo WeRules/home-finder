@@ -174,15 +174,13 @@ function Form({ googleFormData, onSubmit, className = null }) {
     }, [adminUrl]);
 
     const handleLinkOnBlur = useCallback((event) => {
-        console.log('bluuur');
-        setIsFormValid(event.target.reportValidity());
-    }, [setIsFormValid]);
+        event.target.setCustomValidity('');
+        if (!event.target.checkValidity()) {
+            event.target.setCustomValidity(intl.formatMessage({ id: 'this_doesnt_look_like_a_link' }));
+        }
 
-    const handleLinkOnInvalid = useCallback((event) => {
-        // if (!event.target.checkValidity())
-        event.target.setCustomValidity(intl.formatMessage({ id: 'this_doesnt_look_like_a_link' }));
-        event.target.blur();
-    }, [intl]);
+        setIsFormValid(event.target.reportValidity());
+    }, [intl, setIsFormValid]);
 
     return (
         <div>
@@ -210,9 +208,7 @@ function Form({ googleFormData, onSubmit, className = null }) {
                                 className={classes.linkInput}
                                 disabled={isFormSubmitted}
                                 fullWidth
-                                // TODO move this logic to when adding new links or submitting the form
                                 inputProps={{ inputMode: 'text', pattern: '(?:https?):\\/\\/(\\w+:?\\w*)?(\\S+)(:\\d+)?(\\/|\\/([\\w#!:.?+=&%!\\-\\/]))?' }}
-                                onInvalid={handleLinkOnInvalid}
                                 onBlur={handleLinkOnBlur}
                             />
                         </Tooltip>
