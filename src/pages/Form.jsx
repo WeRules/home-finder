@@ -62,9 +62,24 @@ const HomePage = ({ pageContext }) => {
                     color="textPrimary"
                     variant="body1"
                 >
-                    {intl.formatMessage({ id: 'what_is_home_finder' })}
+                    {intl.formatMessage(
+                        { id: 'add_here_the_links' },
+                        {
+                            funda_link: (message) => {
+                                return (
+                                    <a
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href={message}
+                                    >
+                                        {message}
+                                    </a>
+                                );
+                            }
+                        }
+                    )}
                 </Typography>
-                <Form onSubmit={() => {}} googleFormData={googleFormData} showAdminUrl />
+                <Form googleFormData={googleFormData} showAdminUrl />
             </div>
         </Layout>
     );

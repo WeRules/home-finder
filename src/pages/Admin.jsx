@@ -49,7 +49,7 @@ const HomePage = ({ pageContext }) => {
                 color="textPrimary"
                 variant="h4"
             >
-                {intl.formatMessage({ id: 'title' })}
+                {intl.formatMessage({ id: 'admin' })}
             </Typography>
 
             <div
@@ -60,7 +60,7 @@ const HomePage = ({ pageContext }) => {
                     color="textPrimary"
                     variant="body1"
                 >
-                    {intl.formatMessage({ id: 'what_is_home_finder' })}
+                    {intl.formatMessage({ id: 'here_you_can_cancel' })}
                 </Typography>
                 <Form googleFormData={googleFormData} onSubmit={() => {}} isAdmin />
             </div>

@@ -1,7 +1,7 @@
 /* global GOOGLE_FORM_ID */
 import { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Button, FormControl, TextareaAutosize, TextField, Tooltip, Typography, Checkbox } from '@material-ui/core';
+import { Button, FormControl, TextareaAutosize, TextField, Tooltip, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useIntl } from 'gatsby-plugin-react-intl';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,9 +46,14 @@ const useStyles = makeStyles((theme) => ({
 
 const SHORT_ANSWER_TYPE = 0;
 const LONG_ANSWER_TYPE = 1;
-const CHECK_BOX_TYPE = 4;
 
-function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false, isAdmin = false }) {
+function Form({
+    googleFormData,
+    onSubmit = () => {},
+    className = null,
+    showAdminUrl = false,
+    isAdmin = false
+}) {
     const intl = useIntl();
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [isFormValid, setIsFormValid] = useState(isAdmin);
@@ -120,7 +125,7 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                 };
             }
 
-            console.log({ formType, formName, formCode });
+            // console.log({ formType, formName, formCode });
             if (formType === SHORT_ANSWER_TYPE) {
                 return (
                     <Tooltip
@@ -130,11 +135,12 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                     >
                         <TextField
                             name={`entry.${formCode}`}
-                            disabled={isFormSubmitted}
+                            // disabled={isFormSubmitted}
                             fullWidth
                             type={formName === 'email' ? 'email' : 'text'}
                             {...extraProps}
                             {...isAdmin && { value: mock, style: { display: 'none' } }}
+                            {...(isAdmin && formName === 'disable') && { value: 'true' }}
                         />
                     </Tooltip>
                 );
@@ -143,38 +149,26 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                     <TextareaAutosize
                         key={formCode}
                         name={`entry.${formCode}`}
-                        disabled={isFormSubmitted}
+                        // disabled={isFormSubmitted}
                         // type="text"
                         {...extraProps}
                         {...isAdmin && { value: mock, style: { display: 'none' } }}
                     />
                 );
-            } else if (formType === CHECK_BOX_TYPE) {
-                return (
-                    <Checkbox
-                        key={formCode}
-                        name={`entry.${formCode}`}
-                        {...extraProps}
-                        checked={isAdmin}
-                        {...isAdmin && { value: formName }}
-                    />
-                );
             }
         });
-    }, [loadData, links, secret, intl, isFormSubmitted, isAdmin]);
+    }, [loadData, links, secret, intl, isAdmin]);
 
     const onIframeLoad = useCallback(() => {
         // https://stackoverflow.com/a/8558731
         if (isFormSubmitted) {
             setSnackbarMessage('your_data_submitted', SUCCESS_MESSAGE_TYPE);
-            // window.location = urlWithSecret;
-            window.location = window.location.href;
+            window.location = urlWithSecret;
+            // window.location = window.location.href;
         }
-    }, [isFormSubmitted]);
+    }, [isFormSubmitted, urlWithSecret]);
 
-    const onFormSubmit = useCallback((e) => {
-        // debugger;
-        // const data = Object.fromEntries(new FormData(e.target).entries());
+    const onFormSubmit = useCallback(() => {
         setIsFormSubmitted(true);
         onSubmit();
     }, [onSubmit, setIsFormSubmitted]);
@@ -265,7 +259,7 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
                         color="default"
                         type="submit"
                         key="submit-button"
-                        disabled={!isFormValid}
+                        disabled={!isFormValid || isFormSubmitted}
                     >
                         {intl.formatMessage({ id: isAdmin ? 'unsubscribe' : 'submit' })}
                     </Button>
@@ -299,7 +293,6 @@ function Form({ googleFormData, onSubmit, className = null, showAdminUrl = false
 
 Form.propTypes = {
     googleFormData: PropTypes.object.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     className: PropTypes.string,
 };
 
