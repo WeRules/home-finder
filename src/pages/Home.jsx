@@ -64,21 +64,29 @@ const HomePage = () => {
                     color="textPrimary"
                     variant="body1"
                 >
-                    {intl.formatMessage({
-                        id: 'what_is_home_finder_description',
-                    },
-                    {
-                        // eslint-disable-next-line react/display-name
-                        a: (msg) => (
-                            <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href={`https://${msg}`}
-                            >
-                                {msg}
-                            </a>
-                        ),
-                    })}
+                    {intl.formatMessage({ id: 'what_is_home_finder_description' })}
+                </Typography>
+                <Typography
+                    className={classes.paragraph}
+                    color="textPrimary"
+                    variant="body1"
+                >
+                    {intl.formatMessage(
+                        { id: 'script_frequency_explanation' },
+                        {
+                            deploy_instructions: (message) => {
+                                return (
+                                    <a
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href="https://github.com/WeRules/home-finder#how-to-deploy"
+                                    >
+                                        {message}
+                                    </a>
+                                );
+                            }
+                        }
+                    )}
                 </Typography>
                 <Typography
                     className={classNames(classes.subtitle, classes.disclaimerTitle)}

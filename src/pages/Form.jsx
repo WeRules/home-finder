@@ -79,6 +79,28 @@ const HomePage = ({ pageContext }) => {
                         }
                     )}
                 </Typography>
+                <Typography
+                    className={classes.paragraph}
+                    color="textPrimary"
+                    variant="body1"
+                >
+                    {intl.formatMessage(
+                        { id: 'script_frequency_explanation' },
+                        {
+                            deploy_instructions: (message) => {
+                                return (
+                                    <a
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href="https://github.com/WeRules/home-finder#how-to-deploy"
+                                    >
+                                        {message}
+                                    </a>
+                                );
+                            }
+                        }
+                    )}
+                </Typography>
                 <Form googleFormData={googleFormData} showAdminUrl />
             </div>
         </Layout>
