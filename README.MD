@@ -61,5 +61,13 @@ There's also a chance that any of the websites can block the user-agent from scr
 
 ![ScreenShot](https://raw.githubusercontent.com/WeRules/home-finder/main/screenshots/screenshot_2.png)
 
+## Release Notes
+- **v0.2.0:**
+    - Use [react-google-forms-hooks](https://github.com/francisconeves97/react-google-forms-hooks) to parse Google Forms data
+    - Remove a bunch of unused code
+    - Add bugs to fix later
+- **v0.1.0:**
+    - First version
+
 ## Links
 SEO image by https://unsplash.com/photos/rgJ1J8SDEAY
