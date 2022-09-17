@@ -8,7 +8,7 @@ import { useIntl } from 'gatsby-plugin-react-intl';
 import PropTypes from 'prop-types';
 
 // Context
-import { CustomMenuContext } from '../store/CustomMenuProvider';
+import { CustomMenuContext } from '../context/CustomMenuProvider';
 
 // Components
 import ThemeToggler from './ThemeToggler';

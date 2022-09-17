@@ -7,7 +7,7 @@ import SEO from '../components/SEO';
 import Layout from '../components/Layout';
 
 // Constants
-import Form from '../components/Form';
+import LinksForm from '../components/LinksForm';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,15 +45,14 @@ const HomePage = ({ pageContext }) => {
     return (
         <Layout>
             <SEO
-                title={intl.formatMessage({ id: 'home' })}
+                title={intl.formatMessage({ id: 'form' })}
             />
             <Typography
                 color="textPrimary"
                 variant="h4"
             >
-                {intl.formatMessage({ id: 'title' })}
+                {intl.formatMessage({ id: 'fill_form' })}
             </Typography>
-
             <div
                 className={classes.pageContent}
             >
@@ -101,7 +100,7 @@ const HomePage = ({ pageContext }) => {
                         }
                     )}
                 </Typography>
-                <Form googleFormData={googleFormData} showAdminUrl />
+                <LinksForm googleFormData={googleFormData} />
             </div>
         </Layout>
     );

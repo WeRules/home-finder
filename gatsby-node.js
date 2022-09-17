@@ -2,11 +2,11 @@ require('dotenv').config({
     path: '.env',
 });
 
-// const { read, utils } = require('xlsx');
+const { googleFormsToJson } = require('react-google-forms-hooks');
 const packageJson = require('./package.json');
 
 const ignoredPages = ['/Home/'];
-const { convertToKebabCase, getGoogleFormData, downloadSpreadsheetFile } = require('./src/utils/gatsby-node-helpers');
+const { convertToKebabCase, getGoogleFormData } = require('./src/utils/gatsby-node-helpers');
 
 exports.onCreatePage = async ({ page, actions }) => {
     const { createPage, deletePage } = actions;
@@ -19,11 +19,9 @@ exports.onCreatePage = async ({ page, actions }) => {
         return;
     }
 
-    const googleFormData = await getGoogleFormData(process.env.GATSBY_GOOGLE_FORM_ID);
-    // const spreadsheet = await downloadSpreadsheetFile(process.env.GATSBY_GOOGLE_SPREADSHEET_ID, process.env.GOOGLE_SPREADSHEET_GID);
-    // const workbook = read(await spreadsheet.arrayBuffer(), { type: 'array' });
-    // const sheetName = workbook.SheetNames[0];
-    // const spreadsheetData = utils.sheet_to_json(workbook.Sheets[sheetName], { raw: false });
+    const googleFormData = await googleFormsToJson(
+        `https://docs.google.com/forms/d/e/${process.env.GATSBY_GOOGLE_FORM_ID}/viewform?embedded=true`,
+    );
 
     createPage({
         ...page,
@@ -37,7 +35,6 @@ exports.onCreatePage = async ({ page, actions }) => {
             },
             locale: language,
             googleFormData,
-            // spreadsheetData,
         },
     });
 };
@@ -60,12 +57,3 @@ exports.onCreateWebpackConfig = async ({
         ],
     });
 };
-
-// exports.onCreateBabelConfig = ({ actions }) => {
-//     actions.setBabelPlugin({
-//         name: '@babel/plugin-transform-react-jsx',
-//         options: {
-//             runtime: 'automatic',
-//         },
-//     });
-// };

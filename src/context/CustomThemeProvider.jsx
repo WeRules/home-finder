@@ -6,7 +6,7 @@ import { darkTheme, lightTheme } from '../themes/theme';
 
 // Utils
 import { LOCALSTORAGE_THEME_KEY } from '../utils/constants';
-import { isClient } from '../utils/utils';
+import { isClient } from '../utils/gatsby-frontend-helpers';
 
 export const light = 'light';
 
@@ -35,7 +35,7 @@ const CustomThemeProvider = (props) => {
     // Retrieve the theme object by theme name
     const theme = getTheme(themeName);
 
-    // Wrap setThemeName to store new theme names in localStorage
+    // Wrap setThemeName to context new theme names in localStorage
     const setTheme = (name) => {
         localStorage.setItem(LOCALSTORAGE_THEME_KEY, name);
         setThemeName(name);

@@ -1,15 +1,14 @@
 import { Fragment, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { graphql, useStaticQuery } from 'gatsby';
 import { Button, Container, Divider, Snackbar, Typography } from '@material-ui/core';
 import { useIntl } from 'gatsby-plugin-react-intl';
 import { makeStyles } from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
 
 // Components
 import Topbar from './Topbar';
 import SiteDrawer from './Drawer';
 import Link from './Link';
+import SnackBarAlert from './SnackBarAlert';
 
 // Utils
 import {
@@ -56,15 +55,15 @@ const Layout = ({
     showLanguageSelector = true,
     onLanguageChange,
 }) => {
-    const data = useStaticQuery(graphql`
-        query SiteTitleQuery {
-            site {
-                siteMetadata {
-                    title
-                }
-            }
-        }
-    `);
+    // const data = useStaticQuery(graphql`
+    //     query SiteTitleQuery {
+    //         site {
+    //             siteMetadata {
+    //                 title
+    //             }
+    //         }
+    //     }
+    // `);
     const classes = useStyles();
     const intl = useIntl();
     const [message, severity] = getSnackbarMessage();
@@ -131,18 +130,12 @@ const Layout = ({
                     </Typography>
                 </footer>
             </Container>
-            <Snackbar
-                open={isShowingSnackbar}
-                autoHideDuration={6000}
+            <SnackBarAlert
                 onClose={handleCloseSnackbar}
-            >
-                <Alert
-                    onClose={handleCloseSnackbar}
-                    severity={severity}
-                >
-                    {isShowingSnackbar && intl.formatMessage({ id: message })}
-                </Alert>
-            </Snackbar>
+                severity={severity}
+                show={isShowingSnackbar}
+                messageKey={message}
+            />
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',

@@ -49,29 +49,19 @@ export const setCookieConsentSeen = () => {
     );
 };
 
-export const fetchGithubResumeJson = async (userName) => {
-    const url = `https://raw.githubusercontent.com/${userName}/resume.json/main/resume.json`;
-    const result = await fetch(url, {
-        method: 'GET',
-    }).then(async (response) =>
-        // eslint-disable-next-line no-return-await
-        await response.text());
+export const isObject = (obj) =>
+    typeof obj === 'object' && obj?.constructor === Object;
 
-    // eslint-disable-next-line no-return-await
-    return result || '{}';
-};
+export const isObjectEmpty = (obj) =>
+    isObject(obj) && Object.keys(obj).length === 0;
 
-export const isValidJsonString = (jsonString) => {
+export const isObjectNotEmpty = (obj) =>
+    isObject(obj) && Object.keys(obj).length > 0;
 
-    if (!(jsonString && typeof jsonString === 'string')) {
-        return false;
+export const capitalize = (string) => {
+    if (!string) {
+        return '';
     }
 
-    try {
-        JSON.parse(jsonString);
-        return true;
-    } catch (error) {
-        return false;
-    }
-
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 };
