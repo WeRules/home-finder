@@ -4,6 +4,7 @@
     "about": "Sobre",
     "source_code": "Código fonte",
     "fill_form": "Preencher formulário",
+    "form": "Formulário",
     "email": "E-mail",
     "submit": "Enviar",
     "built_with": "Feito com ",
@@ -23,6 +24,7 @@
     "your_data_submitted": "Seus dados foram enviados",
     "this_doesnt_look_like_a_link": "Isso não parece um link",
     "unsubscribe": "Cancelar subscrição",
+    "nothing_to_see": "Nada para ver aqui...",
     "copy": "Copiar",
     "add_more_links": "Adicionar mais links",
     "notfound": {

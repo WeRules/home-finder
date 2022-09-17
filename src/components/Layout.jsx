@@ -1,6 +1,5 @@
 import { Fragment, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { graphql, useStaticQuery } from 'gatsby';
 import { Button, Container, Divider, Snackbar, Typography } from '@material-ui/core';
 import { useIntl } from 'gatsby-plugin-react-intl';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Topbar from './Topbar';
 import SiteDrawer from './Drawer';
 import Link from './Link';
-import SnackBarAlert from "./SnackBarAlert";
+import SnackBarAlert from './SnackBarAlert';
 
 // Utils
 import {

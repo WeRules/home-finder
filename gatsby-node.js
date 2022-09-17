@@ -19,7 +19,6 @@ exports.onCreatePage = async ({ page, actions }) => {
         return;
     }
 
-    // const googleFormData = await getGoogleFormData(process.env.GATSBY_GOOGLE_FORM_ID);
     const googleFormData = await googleFormsToJson(
         `https://docs.google.com/forms/d/e/${process.env.GATSBY_GOOGLE_FORM_ID}/viewform?embedded=true`,
     );

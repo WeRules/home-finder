@@ -1,6 +1,6 @@
-import { Snackbar } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import { useIntl } from "gatsby-plugin-react-intl";
+import { Snackbar } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import { useIntl } from 'gatsby-plugin-react-intl';
 
 function SnackBarAlert({ severity, show, messageKey, onClose }) {
     const intl = useIntl();

@@ -1,4 +1,3 @@
-/* global GOOGLE_FORM_ID */
 import { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Button, FormControl, TextField, Tooltip } from '@material-ui/core';
@@ -6,19 +5,16 @@ import { GoogleFormProvider, useGoogleForm } from 'react-google-forms-hooks';
 import PropTypes from 'prop-types';
 import { useIntl } from 'gatsby-plugin-react-intl';
 import { makeStyles } from '@material-ui/core/styles';
-import classNames from "classnames";
-
-// Utils
-import { isClient } from '../utils/gatsby-frontend-helpers';
+import classNames from 'classnames';
 
 // Constants
-import { LONG_ANSWER, SHORT_ANSWER } from "./google-forms-inputs/input-types";
-import { SUCCESS_MESSAGE_TYPE } from "../utils/constants";
+import { LONG_ANSWER, SHORT_ANSWER } from './google-forms-inputs/input-types';
+import { SUCCESS_MESSAGE_TYPE } from '../utils/constants';
 
 // Components
-import ShortAnswerInput from "./google-forms-inputs/ShortAnswerInput";
-import LongAnswerInput from "./google-forms-inputs/LongAnswerInput";
-import SnackBarAlert from "./SnackBarAlert";
+import ShortAnswerInput from './google-forms-inputs/ShortAnswerInput';
+import LongAnswerInput from './google-forms-inputs/LongAnswerInput';
+import SnackBarAlert from './SnackBarAlert';
 
 const useStyles = makeStyles((theme) => ({
     copyBlockWrapper: {
@@ -65,22 +61,7 @@ function LinksForm({
     const { submitToGoogleForms, formState, handleSubmit } = formMethods;
     // console.log('>>> Here are the errors!!!', formState.errors);
 
-    const urlSecret = useMemo(() => {
-        if (isClient()) {
-            const url = new URL(window.location.href);
-            return url.searchParams.get('secret');
-        }
-
-        return '';
-    }, []);
-
-    const secret = useMemo(() => {
-        if (urlSecret) {
-            return urlSecret;
-        }
-
-        return uuid();
-    }, [urlSecret]);
+    const secret = useMemo(() => uuid(), []);
 
     const linksFieldId = useMemo(() => {
         const linksField = googleFormData.fields.find(({label}) => label === 'links');
@@ -93,7 +74,7 @@ function LinksForm({
             let extraProps = {
                 required,
                 fullWidth: true,
-                id: id,
+                id,
             };
 
             if (['links', 'secret', 'disable'].includes(label)) {
@@ -115,6 +96,7 @@ function LinksForm({
                 return (
                     <ShortAnswerInput
                         key={id}
+                        type={label === 'email' ? 'email' : 'text'}
                         {...extraProps}
                     />
                 );
@@ -227,7 +209,7 @@ function LinksForm({
                 onClose={handleCloseSnackbar}
                 severity={SUCCESS_MESSAGE_TYPE}
                 show={isShowingSnackbar}
-                messageKey={'your_data_submitted'}
+                messageKey="your_data_submitted"
             />
         </div>
     );

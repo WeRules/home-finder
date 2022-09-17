@@ -4,6 +4,7 @@
     "about": "About",
     "source_code": "Source code",
     "fill_form": "Fill form",
+    "form": "Form",
     "email": "E-mail",
     "submit": "Submit",
     "built_with": "Built with ",
@@ -23,6 +24,7 @@
     "your_data_submitted": "Your data was submitted",
     "this_doesnt_look_like_a_link": "This doesn't look like a link",
     "unsubscribe": "Unsubscribe",
+    "nothing_to_see": "Nothing to see here...",
     "copy": "Copy",
     "add_more_links": "Add more links",
     "notfound": {
