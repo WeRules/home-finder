@@ -5,7 +5,7 @@ import { useIntl } from 'gatsby-plugin-react-intl';
 // Components
 import SEO from '../components/SEO';
 import Layout from '../components/Layout';
-import Form from "../components/Form";
+import LinksForm from "../components/LinksForm";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,7 +62,7 @@ const HomePage = ({ pageContext }) => {
                 >
                     {intl.formatMessage({ id: 'here_you_can_cancel' })}
                 </Typography>
-                <Form googleFormData={googleFormData} onSubmit={() => {}} isAdmin />
+                <LinksForm googleFormData={googleFormData} onSubmit={() => {}} isAdmin />
             </div>
         </Layout>
     );

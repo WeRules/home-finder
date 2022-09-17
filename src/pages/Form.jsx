@@ -7,7 +7,7 @@ import SEO from '../components/SEO';
 import Layout from '../components/Layout';
 
 // Constants
-import Form from '../components/Form';
+import LinksForm from '../components/LinksForm';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -101,7 +101,7 @@ const HomePage = ({ pageContext }) => {
                         }
                     )}
                 </Typography>
-                <Form googleFormData={googleFormData} showAdminUrl />
+                <LinksForm googleFormData={googleFormData} showAdminUrl />
             </div>
         </Layout>
     );

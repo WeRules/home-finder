@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import CustomThemeProvider from '../../src/store/CustomThemeProvider';
-import CustomMenuProvider from '../../src/store/CustomMenuProvider';
-import StoreProvider from '../../src/store/StoreProvider';
+import CustomThemeProvider from '../../src/context/CustomThemeProvider';
+import CustomMenuProvider from '../../src/context/CustomMenuProvider';
 
 const useStyles = makeStyles((theme) => ({
     siteWrapper: {
@@ -33,11 +32,9 @@ export default function TopLayout(props) {
             <section className={classes.siteWrapper}>
                 <CustomMenuProvider>
                     <CustomThemeProvider>
-                        <StoreProvider>
-                            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                            <CssBaseline />
-                            {props.children}
-                        </StoreProvider>
+                        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                        <CssBaseline />
+                        {props.children}
                     </CustomThemeProvider>
                 </CustomMenuProvider>
             </section>
