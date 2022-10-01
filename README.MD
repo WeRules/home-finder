@@ -81,3 +81,6 @@ There's also a chance that any of the websites can block the user-agent from scr
 
 ## Links
 SEO image by https://unsplash.com/photos/rgJ1J8SDEAY
+
+## Donate
+Do you like this project? [🥤 Buy me a soda](https://bunq.me/BuyMeASoda)

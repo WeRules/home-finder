@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import {Button, FormControl, TextField, Tooltip, Checkbox, FormControlLabel, Typography} from '@material-ui/core';
+import { Button, FormControl, TextField, Tooltip, Checkbox, FormControlLabel, Typography } from '@material-ui/core';
 import { GoogleFormProvider, useGoogleForm } from 'react-google-forms-hooks';
 import PropTypes from 'prop-types';
 import { useIntl } from 'gatsby-plugin-react-intl';
