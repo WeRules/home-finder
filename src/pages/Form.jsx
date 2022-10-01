@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography} from '@material-ui/core';
 import { useIntl } from 'gatsby-plugin-react-intl';
+import classNames from "classnames";
 
 // Components
 import SEO from '../components/SEO';
@@ -22,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
     },
     paragraph: {
         marginBottom: '10px',
-    },
-    disclaimerTitle: {
-        color: '#e81111',
     },
     pageContent: {
         padding: '5px',
@@ -99,6 +97,23 @@ const HomePage = ({ pageContext }) => {
                             }
                         }
                     )}
+                </Typography>
+                <Typography
+                    className={classNames(classes.subtitle)}
+                    color="textPrimary"
+                    variant="h6"
+                >
+                    {intl.formatMessage({ id: 'remember' })}
+                </Typography>
+                <Typography
+                    className={classes.paragraph}
+                    color="textPrimary"
+                    variant="body1"
+                >
+                    {intl.formatMessage({ id: 'half_of_the_work' },
+                        {
+                            b: (message) => <b>{message}</b>
+                        })}
                 </Typography>
                 <LinksForm googleFormData={googleFormData} />
             </div>

@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     linkInput: {
         display: 'flex',
     },
+    input: {
+        marginTop: '15px',
+    },
     paragraph: {
         marginBottom: '10px',
     },
@@ -96,6 +99,7 @@ function LinksForm({
                 return (
                     <ShortAnswerInput
                         key={id}
+                        className={classes.input}
                         type={label === 'email' ? 'email' : 'text'}
                         {...extraProps}
                     />
@@ -104,6 +108,7 @@ function LinksForm({
                 return (
                     <LongAnswerInput
                         key={id}
+                        className={classes.input}
                         {...extraProps}
                     />
                 );
@@ -111,7 +116,7 @@ function LinksForm({
 
             return null;
         });
-    }, [googleFormData.fields, intl, secret]);
+    }, [classes.input, googleFormData.fields, intl, secret]);
 
     const onFormSubmit = useCallback((data, event) => {
         setIsFormSubmitted(true);
@@ -165,7 +170,7 @@ function LinksForm({
                                 label={intl.formatMessage({ id: 'link' })}
                                 value={links[i]}
                                 onChange={onAddNewLink(i)}
-                                className={classes.linkInput}
+                                className={classNames(classes.linkInput, classes.input)}
                                 disabled={isFormSubmitted}
                                 fullWidth
                                 required
@@ -184,8 +189,10 @@ function LinksForm({
                             color="default"
                             type="submit"
                             onClick={onAddNewLinkField}
+                            // TODO add a link to be valid of not
+                            disabled={!(links.at(-1).length > 0)}
                         >
-                            ➕
+                            +
                         </Button>
                     </Tooltip>
                 </div>

@@ -26,9 +26,6 @@ const useStyles = makeStyles((theme) => ({
     paragraph: {
         marginBottom: '10px',
     },
-    disclaimerTitle: {
-        color: '#e81111',
-    },
     pageContent: {
         padding: '5px',
         '& a': {
