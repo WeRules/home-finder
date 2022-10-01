@@ -30,6 +30,7 @@
     "nothing_to_see": "Nothing to see here...",
     "copy": "Copy",
     "add_more_links": "Add more links",
+    "remove_previous_link": "Remove previous link",
     "notfound": {
         "title": "404: Not found",
         "header": "404 NOT FOUND",

@@ -31,9 +31,28 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '20px',
         display: 'block',
     },
-    addLinksButton: {
+    removeLinkButton: {
+        marginLeft: '5px',
+    },
+    linksButtonsWrapper: {
+        display: 'flex',
+    },
+    linksButtons: {
         marginTop: '10px',
         display: 'block',
+    },
+    disabledAddLinksButton: {
+        color: '#ffffff4d',
+        boxShadow: 'none',
+        cursor: 'default',
+        backgroundColor: '#ffffff1f',
+        '&:hover': {
+            boxShadow: 'inherit',
+            backgroundColor: '#ffffff1f',
+        },
+        '&:active': {
+            boxShadow: 'inherit',
+        }
     },
     linkInput: {
         display: 'flex',
@@ -57,7 +76,7 @@ function LinksForm({
     const intl = useIntl();
     const [isShowingSnackbar, setIsShowingSnackbar] = useState(false);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [areLinksValid, setAreLinksValid] = useState(false);
     const classes = useStyles();
     const [links, setLinks] = useState(['']);
     const formMethods = useGoogleForm({ form: googleFormData });
@@ -137,9 +156,18 @@ function LinksForm({
     }, [setLinks, links]);
 
     const onAddNewLinkField = useCallback(() => {
-        links.push('');
+        if (areLinksValid) {
+            links.push('');
+            setLinks([...links]);
+            setAreLinksValid(false);
+        }
+    }, [areLinksValid, links]);
+
+    const onRemovePreviousLinkField = useCallback(() => {
+        links.pop();
         setLinks([...links]);
-    }, [setLinks, links]);
+        setAreLinksValid(true);
+    }, [links]);
 
     const handleLinkOnBlur = useCallback((event) => {
         event.target.setCustomValidity('');
@@ -147,8 +175,8 @@ function LinksForm({
             event.target.setCustomValidity(intl.formatMessage({ id: 'this_doesnt_look_like_a_link' }));
         }
 
-        setIsFormValid(event.target.reportValidity());
-    }, [intl, setIsFormValid]);
+        setAreLinksValid(event.target.reportValidity());
+    }, [intl, setAreLinksValid]);
 
     const handleCloseSnackbar = useCallback(() => {
         setIsShowingSnackbar(false);
@@ -161,7 +189,7 @@ function LinksForm({
                     {links.map((v, i) => (
                         <Tooltip
                             key={i}
-                            placement="bottom-start"
+                            placement="right-start"
                             title={intl.formatMessage({ id: 'fill_here_links_sites' })}
                         >
                             <TextField
@@ -179,22 +207,39 @@ function LinksForm({
                             />
                         </Tooltip>
                     ))}
-                    <Tooltip
-                        placement="bottom-start"
-                        title={intl.formatMessage({ id: 'add_more_links' })}
-                    >
-                        <Button
-                            className={classes.addLinksButton}
-                            variant="contained"
-                            color="default"
-                            type="submit"
-                            onClick={onAddNewLinkField}
-                            // TODO add a link to be valid of not
-                            disabled={!(links.at(-1).length > 0)}
+                    <div className={classes.linksButtonsWrapper}>
+                        <Tooltip
+                            placement="right-start"
+                            title={intl.formatMessage({ id: 'add_more_links' })}
                         >
-                            +
-                        </Button>
-                    </Tooltip>
+                            <Button
+                                disableRipple={!areLinksValid}
+                                className={classNames(classes.linksButtons, {
+                                    [classes.disabledAddLinksButton]: !areLinksValid,
+                                })}
+                                variant="contained"
+                                color="default"
+                                onClick={onAddNewLinkField}
+                            >
+                                +
+                            </Button>
+                        </Tooltip>
+                        {links.length > 1 && (
+                            <Tooltip
+                                placement="right-start"
+                                title={intl.formatMessage({ id: 'remove_previous_link' })}
+                            >
+                                <Button
+                                    className={classNames(classes.linksButtons, classes.removeLinkButton)}
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={onRemovePreviousLinkField}
+                                >
+                                    -
+                                </Button>
+                            </Tooltip>
+                        )}
+                    </div>
                 </div>
                 <GoogleFormProvider {...formMethods}>
                     <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -205,7 +250,7 @@ function LinksForm({
                             color="default"
                             type="submit"
                             key="submit-button"
-                            disabled={!isFormValid || isFormSubmitted}
+                            disabled={!areLinksValid || isFormSubmitted}
                         >
                             {intl.formatMessage({ id: 'submit' })}
                         </Button>
