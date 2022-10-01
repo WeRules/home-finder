@@ -89,6 +89,23 @@ const HomePage = () => {
                     )}
                 </Typography>
                 <Typography
+                    className={classNames(classes.subtitle)}
+                    color="textPrimary"
+                    variant="h6"
+                >
+                    {intl.formatMessage({ id: 'remember' })}
+                </Typography>
+                <Typography
+                    className={classes.paragraph}
+                    color="textPrimary"
+                    variant="body1"
+                >
+                    {intl.formatMessage({ id: 'half_of_the_work' },
+                        {
+                            b: (message) => <b>{message}</b>
+                        })}
+                </Typography>
+                <Typography
                     className={classNames(classes.subtitle, classes.disclaimerTitle)}
                     color="textPrimary"
                     variant="h6"

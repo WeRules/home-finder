@@ -127,6 +127,10 @@ const Layout = ({
                         </a>
                         {' | '}
                         <Link to="/cookie-policy">{intl.formatMessage({ id: 'cookie_law.title' })}</Link>
+                        {' | '}
+                        <a href="https://bunq.me/BuyMeASoda" rel="noreferrer" target="_blank">
+                            🥤 {intl.formatMessage({ id: 'buy_me_a_soda' })}
+                        </a>
                     </Typography>
                 </footer>
             </Container>

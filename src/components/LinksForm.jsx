@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Button, FormControl, TextField, Tooltip } from '@material-ui/core';
+import { Button, FormControl, TextField, Tooltip, Checkbox, FormControlLabel, Typography } from '@material-ui/core';
 import { GoogleFormProvider, useGoogleForm } from 'react-google-forms-hooks';
 import PropTypes from 'prop-types';
 import { useIntl } from 'gatsby-plugin-react-intl';
@@ -31,18 +31,44 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '20px',
         display: 'block',
     },
-    addLinksButton: {
+    removeLinkButton: {
+        marginLeft: '5px',
+    },
+    linksButtonsWrapper: {
+        display: 'flex',
+        marginBottom: '20px',
+    },
+    linksButtons: {
         marginTop: '10px',
         display: 'block',
     },
+    disabledAddLinksButton: {
+        color: '#ffffff4d',
+        boxShadow: 'none',
+        cursor: 'default',
+        backgroundColor: '#ffffff1f',
+        '&:hover': {
+            boxShadow: 'inherit',
+            backgroundColor: '#ffffff1f',
+        },
+        '&:active': {
+            boxShadow: 'inherit',
+        }
+    },
     linkInput: {
         display: 'flex',
+    },
+    input: {
+        marginTop: '15px',
     },
     paragraph: {
         marginBottom: '10px',
     },
     formWrapper: {
         display: 'flex',
+    },
+    hiddenTelegramInput: {
+        display: 'none',
     }
 }));
 
@@ -53,8 +79,9 @@ function LinksForm({
 }) {
     const intl = useIntl();
     const [isShowingSnackbar, setIsShowingSnackbar] = useState(false);
+    const [isTelegramEnabled, setIsTelegramEnabled] = useState(false);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [areLinksValid, setAreLinksValid] = useState(false);
     const classes = useStyles();
     const [links, setLinks] = useState(['']);
     const formMethods = useGoogleForm({ form: googleFormData });
@@ -77,25 +104,54 @@ function LinksForm({
                 id,
             };
 
-            if (['links', 'secret', 'disable'].includes(label)) {
-                extraProps = {
-                    ...extraProps,
-                    // these fields are hidden, so no need for translation
-                    label: label,
-                    ...label === 'secret' && { value: secret },
-                    style: { display: 'none' },
-                };
-            } else {
-                extraProps = {
-                    ...extraProps,
-                    label: intl.formatMessage({ id: label }),
-                };
+            switch (label) {
+                case 'links':
+                case 'secret':
+                case 'disable': {
+                    extraProps = {
+                        ...extraProps,
+                        // these fields are hidden, so no need for translation
+                        label,
+                        ...label === 'secret' && { value: secret },
+                        style: { display: 'none' },
+                    };
+
+                    break;
+                }
+
+                default: {
+                    extraProps = {
+                        ...extraProps,
+                        label: intl.formatMessage({ id: label }),
+                    };
+
+                    break;
+                }
             }
 
             if (type === SHORT_ANSWER) {
+                if (label === 'telegram_group_id') {
+                    return (
+                        <Tooltip
+                            key={id}
+                            placement="right-start"
+                            title={intl.formatMessage({ id: 'telegram_group_id_description_short' })}
+                        >
+                            <span>
+                                <ShortAnswerInput
+                                    className={classNames(classes.input, { [classes.hiddenTelegramInput]: !isTelegramEnabled })}
+                                    type="text"
+                                    {...extraProps}
+                                />
+                            </span>
+                        </Tooltip>
+                    );
+                }
+
                 return (
                     <ShortAnswerInput
                         key={id}
+                        className={classes.input}
                         type={label === 'email' ? 'email' : 'text'}
                         {...extraProps}
                     />
@@ -104,6 +160,7 @@ function LinksForm({
                 return (
                     <LongAnswerInput
                         key={id}
+                        className={classes.input}
                         {...extraProps}
                     />
                 );
@@ -111,7 +168,7 @@ function LinksForm({
 
             return null;
         });
-    }, [googleFormData.fields, intl, secret]);
+    }, [classes.hiddenTelegramInput, classes.input, googleFormData.fields, intl, isTelegramEnabled, secret]);
 
     const onFormSubmit = useCallback((data, event) => {
         setIsFormSubmitted(true);
@@ -132,9 +189,18 @@ function LinksForm({
     }, [setLinks, links]);
 
     const onAddNewLinkField = useCallback(() => {
-        links.push('');
+        if (areLinksValid) {
+            links.push('');
+            setLinks([...links]);
+            setAreLinksValid(false);
+        }
+    }, [areLinksValid, links]);
+
+    const onRemovePreviousLinkField = useCallback(() => {
+        links.pop();
         setLinks([...links]);
-    }, [setLinks, links]);
+        setAreLinksValid(true);
+    }, [links]);
 
     const handleLinkOnBlur = useCallback((event) => {
         event.target.setCustomValidity('');
@@ -142,12 +208,16 @@ function LinksForm({
             event.target.setCustomValidity(intl.formatMessage({ id: 'this_doesnt_look_like_a_link' }));
         }
 
-        setIsFormValid(event.target.reportValidity());
-    }, [intl, setIsFormValid]);
+        setAreLinksValid(event.target.reportValidity());
+    }, [intl, setAreLinksValid]);
 
     const handleCloseSnackbar = useCallback(() => {
         setIsShowingSnackbar(false);
     }, []);
+
+    const handleTelegramCheckboxChanged = useCallback(() => {
+        setIsTelegramEnabled(!isTelegramEnabled);
+    }, [isTelegramEnabled]);
 
     return (
         <div>
@@ -156,7 +226,7 @@ function LinksForm({
                     {links.map((v, i) => (
                         <Tooltip
                             key={i}
-                            placement="bottom-start"
+                            placement="right-start"
                             title={intl.formatMessage({ id: 'fill_here_links_sites' })}
                         >
                             <TextField
@@ -165,7 +235,7 @@ function LinksForm({
                                 label={intl.formatMessage({ id: 'link' })}
                                 value={links[i]}
                                 onChange={onAddNewLink(i)}
-                                className={classes.linkInput}
+                                className={classNames(classes.linkInput, classes.input)}
                                 disabled={isFormSubmitted}
                                 fullWidth
                                 required
@@ -174,20 +244,87 @@ function LinksForm({
                             />
                         </Tooltip>
                     ))}
-                    <Tooltip
-                        placement="bottom-start"
-                        title={intl.formatMessage({ id: 'add_more_links' })}
-                    >
-                        <Button
-                            className={classes.addLinksButton}
-                            variant="contained"
-                            color="default"
-                            type="submit"
-                            onClick={onAddNewLinkField}
+                    <div className={classes.linksButtonsWrapper}>
+                        <Tooltip
+                            placement="right-start"
+                            title={intl.formatMessage({ id: 'add_more_links' })}
                         >
-                            ➕
-                        </Button>
-                    </Tooltip>
+                            <Button
+                                disableRipple={!areLinksValid}
+                                className={classNames(classes.linksButtons, {
+                                    [classes.disabledAddLinksButton]: !areLinksValid,
+                                })}
+                                variant="contained"
+                                color="default"
+                                onClick={onAddNewLinkField}
+                            >
+                                +
+                            </Button>
+                        </Tooltip>
+                        {links.length > 1 && (
+                            <Tooltip
+                                placement="right-start"
+                                title={intl.formatMessage({ id: 'remove_previous_link' })}
+                            >
+                                <Button
+                                    className={classNames(classes.linksButtons, classes.removeLinkButton)}
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={onRemovePreviousLinkField}
+                                >
+                                    -
+                                </Button>
+                            </Tooltip>
+                        )}
+                    </div>
+                    <FormControlLabel
+                        control={<Checkbox name="enable_telegram" onChange={handleTelegramCheckboxChanged} checked={isTelegramEnabled} />}
+                        label={intl.formatMessage({ id: 'enable_telegram' })}
+                    />
+                    {isTelegramEnabled && (
+                        <div>
+                            <Typography
+                                className={classes.paragraph}
+                                color="textPrimary"
+                                variant="body1"
+                            >
+                                {intl.formatMessage({ id: 'telegram_group_id_description' },
+                                    {
+                                        telegram_link: (message) => {
+                                            return (
+                                                <a
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href="https://stackoverflow.com/q/32423837/4307769"
+                                                >
+                                                    {message}
+                                                </a>
+                                            );
+                                        }
+                                    })}
+                            </Typography>
+                            <Typography
+                                className={classes.paragraph}
+                                color="textPrimary"
+                                variant="body1"
+                            >
+                                {intl.formatMessage({ id: 'dont_forget_to_add_telegram_bot' },
+                                    {
+                                        telegram_link: (message) => {
+                                            return (
+                                                <a
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href="https://telegram.me/FreeHomeFinderBot"
+                                                >
+                                                    {message}
+                                                </a>
+                                            );
+                                        }
+                                    })}
+                            </Typography>
+                        </div>
+                    )}
                 </div>
                 <GoogleFormProvider {...formMethods}>
                     <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -198,7 +335,7 @@ function LinksForm({
                             color="default"
                             type="submit"
                             key="submit-button"
-                            disabled={!isFormValid || isFormSubmitted}
+                            disabled={!areLinksValid || isFormSubmitted}
                         >
                             {intl.formatMessage({ id: 'submit' })}
                         </Button>

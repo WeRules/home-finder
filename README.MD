@@ -7,6 +7,13 @@ Home Finder is a free open-source project designed to help people find houses to
 
 You can read more about this project on [this blog post](https://pablo.gg/en/blog/coding/creating-a-startup-with-github-actions-and-google-forms/).
 
+## How to use
+Go to the [form page in the Home Finder website](https://werules.github.io/home-finder/en/form), and fill the form with your email and all the links from the real estate websites with your search parameters, for example [https://www.funda.nl/en/huur/amsterdam/beschikbaar/0-2000/40+woonopp/2+slaapkamers/1-dag/](https://www.funda.nl/en/huur/amsterdam/beschikbaar/0-2000/40+woonopp/2+slaapkamers/1-dag/), and click submit. After that simply wait for the script to find new houses and send them directly to your email.
+
+The websites supported by this project are: [funda.nl](https://funda.nl), [vbo.nl](https://vbo.nl), [huislijn.nl](https://huislijn.nl), [zah.nl](https://zah.nl), [pararius.nl](https://pararius.nl), [jaap.nl](https://jaap.nl) and [hoekstraenvaneck.nl](https://hoekstraenvaneck.nl), so go ahead to these websites, add your filters and add them to [Home Finder](https://werules.github.io/home-finder/en/).
+
+**Please remember that** this website is only **half of the work**, you will be notified when a new house is listed, but it's up to you to take action fast to be the first one to book a viewing for that house.
+
 ## How to Deploy
 To deploy your own version you will need to clone 2 GitHub repos, the [Home Finder](https://github.com/WeRules/home-finder) and the [Home Finder Script](https://github.com/WeRules/home-finder-script). If you don't really need the frontend part, you can just clone the script repo.
 
@@ -56,12 +63,15 @@ That's why I made this free and open-source and I highly encourage people to dep
 There's also a chance that any of the websites can block the user-agent from scraping them, in this case you need to keep an eye on it and change the user-agent if needed.
 
 ## Screenshots
-
 ![ScreenShot](https://raw.githubusercontent.com/WeRules/home-finder/main/screenshots/screenshot_1.png)
 
 ![ScreenShot](https://raw.githubusercontent.com/WeRules/home-finder/main/screenshots/screenshot_2.png)
 
 ## Release Notes
+- **v0.3.0:**
+    - Update website texts and descriptions
+    - Add Telegram notification support
+    - Add contact page
 - **v0.2.0:**
     - Use [react-google-forms-hooks](https://github.com/francisconeves97/react-google-forms-hooks) to parse Google Forms data
     - Remove a bunch of unused code
@@ -71,3 +81,6 @@ There's also a chance that any of the websites can block the user-agent from scr
 
 ## Links
 SEO image by https://unsplash.com/photos/rgJ1J8SDEAY
+
+## Donate
+Do you like this project? [🥤 Buy me a soda](https://bunq.me/BuyMeASoda)
