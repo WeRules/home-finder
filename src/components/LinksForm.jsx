@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     },
     formWrapper: {
         display: 'flex',
+    },
+    hiddenTelegramInput: {
+        display: 'none',
     }
 }));
 
@@ -77,7 +80,6 @@ function LinksForm({
     const intl = useIntl();
     const [isShowingSnackbar, setIsShowingSnackbar] = useState(false);
     const [isTelegramEnabled, setIsTelegramEnabled] = useState(false);
-    const [telegramGroupdId, setTelegramGroupdId] = useState('');
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [areLinksValid, setAreLinksValid] = useState(false);
     const classes = useStyles();
@@ -102,22 +104,50 @@ function LinksForm({
                 id,
             };
 
-            if (['links', 'secret', 'disable'].includes(label)) {
-                extraProps = {
-                    ...extraProps,
-                    // these fields are hidden, so no need for translation
-                    label: label,
-                    ...label === 'secret' && { value: secret },
-                    style: { display: 'none' },
-                };
-            } else {
-                extraProps = {
-                    ...extraProps,
-                    label: intl.formatMessage({ id: label }),
-                };
+            switch (label) {
+                case 'links':
+                case 'secret':
+                case 'disable': {
+                    extraProps = {
+                        ...extraProps,
+                        // these fields are hidden, so no need for translation
+                        label,
+                        ...label === 'secret' && { value: secret },
+                        style: { display: 'none' },
+                    };
+
+                    break;
+                }
+
+                default: {
+                    extraProps = {
+                        ...extraProps,
+                        label: intl.formatMessage({ id: label }),
+                    };
+
+                    break;
+                }
             }
 
             if (type === SHORT_ANSWER) {
+                if (label === 'telegram_group_id') {
+                    return (
+                        <Tooltip
+                            key={id}
+                            placement="right-start"
+                            title={intl.formatMessage({ id: 'telegram_group_id_description_short' })}
+                        >
+                            <span>
+                                <ShortAnswerInput
+                                    className={classNames(classes.input, { [classes.hiddenTelegramInput]: !isTelegramEnabled })}
+                                    type="text"
+                                    {...extraProps}
+                                />
+                            </span>
+                        </Tooltip>
+                    );
+                }
+
                 return (
                     <ShortAnswerInput
                         key={id}
@@ -138,7 +168,7 @@ function LinksForm({
 
             return null;
         });
-    }, [classes.input, googleFormData.fields, intl, secret]);
+    }, [classes.hiddenTelegramInput, classes.input, googleFormData.fields, intl, isTelegramEnabled, secret]);
 
     const onFormSubmit = useCallback((data, event) => {
         setIsFormSubmitted(true);
@@ -188,10 +218,6 @@ function LinksForm({
     const handleTelegramCheckboxChanged = useCallback(() => {
         setIsTelegramEnabled(!isTelegramEnabled);
     }, [isTelegramEnabled]);
-
-    const handleTelegramGroupIdChanged = useCallback((event) => {
-        setTelegramGroupdId(event.target.value);
-    }, [setTelegramGroupdId]);
 
     return (
         <div>
@@ -277,19 +303,6 @@ function LinksForm({
                                         }
                                     })}
                             </Typography>
-                            <Tooltip
-                                placement="right"
-                                title={intl.formatMessage({ id: 'telegram_group_id_description_short' })}
-                            >
-                                <TextField
-                                    name="telegram_group_id"
-                                    type="text"
-                                    label={intl.formatMessage({ id: 'telegram_group_id' })}
-                                    value={telegramGroupdId}
-                                    onChange={handleTelegramGroupIdChanged}
-                                    fullWidth
-                                />
-                            </Tooltip>
                         </div>
                     )}
                 </div>
