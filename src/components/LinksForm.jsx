@@ -43,13 +43,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'block',
     },
     disabledAddLinksButton: {
-        color: '#ffffff4d',
+        ...theme?.palette?.type === 'dark' && { color: '#ffffff4d' },
+        ...theme?.palette?.type !== 'dark' && { color: '#00000042' },
         boxShadow: 'none',
         cursor: 'default',
-        backgroundColor: '#ffffff1f',
+        ...theme?.palette?.type === 'dark' && { backgroundColor: '#ffffff1f' },
+        ...theme?.palette?.type !== 'dark' && { backgroundColor: '#0000001f' },
         '&:hover': {
             boxShadow: 'inherit',
-            backgroundColor: '#ffffff1f',
+            ...theme?.palette?.type === 'dark' && { backgroundColor: '#ffffff1f' },
+            ...theme?.palette?.type !== 'dark' && { backgroundColor: '#0000001f' },
         },
         '&:active': {
             boxShadow: 'inherit',
