@@ -295,7 +295,27 @@ function LinksForm({
                                                 <a
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    href={message}
+                                                    href="https://stackoverflow.com/q/32423837/4307769"
+                                                >
+                                                    {message}
+                                                </a>
+                                            );
+                                        }
+                                    })}
+                            </Typography>
+                            <Typography
+                                className={classes.paragraph}
+                                color="textPrimary"
+                                variant="body1"
+                            >
+                                {intl.formatMessage({ id: 'dont_forget_to_add_telegram_bot' },
+                                    {
+                                        telegram_link: (message) => {
+                                            return (
+                                                <a
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href="https://telegram.me/FreeHomeFinderBot"
                                                 >
                                                     {message}
                                                 </a>

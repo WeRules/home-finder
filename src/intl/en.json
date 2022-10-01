@@ -35,6 +35,7 @@
     "telegram_group_id": "Telegram group ID",
     "telegram_group_id_description": "Fill in the Group ID of the Telegram group you would like to receive notifications of new houses. Don't know how to get the Telegram Group ID? Check <telegram_link>this link</telegram_link>.",
     "telegram_group_id_description_short": "Fill in the Group ID of the Telegram group you would like to receive notifications of new houses",
+    "dont_forget_to_add_telegram_bot": "Don't forget to add the Telegram Bot <telegram_link>@FreeHomeFinderBot</telegram_link> to your Telegram Group",
     "notfound": {
         "title": "404: Not found",
         "header": "404 NOT FOUND",
