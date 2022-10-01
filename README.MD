@@ -69,7 +69,6 @@ There's also a chance that any of the websites can block the user-agent from scr
 
 ## Release Notes
 - **v0.3.1:**
-    - Add missing contact page
     - Fix button color on light theme
 - **v0.3.0:**
     - Update website texts and descriptions
