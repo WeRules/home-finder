@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Button, FormControl, TextField, Tooltip } from '@material-ui/core';
+import {Button, FormControl, TextField, Tooltip, Checkbox, FormControlLabel, Typography} from '@material-ui/core';
 import { GoogleFormProvider, useGoogleForm } from 'react-google-forms-hooks';
 import PropTypes from 'prop-types';
 import { useIntl } from 'gatsby-plugin-react-intl';
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     linksButtonsWrapper: {
         display: 'flex',
+        marginBottom: '20px',
     },
     linksButtons: {
         marginTop: '10px',
@@ -75,6 +76,8 @@ function LinksForm({
 }) {
     const intl = useIntl();
     const [isShowingSnackbar, setIsShowingSnackbar] = useState(false);
+    const [isTelegramEnabled, setIsTelegramEnabled] = useState(false);
+    const [telegramGroupdId, setTelegramGroupdId] = useState('');
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [areLinksValid, setAreLinksValid] = useState(false);
     const classes = useStyles();
@@ -182,6 +185,14 @@ function LinksForm({
         setIsShowingSnackbar(false);
     }, []);
 
+    const handleTelegramCheckboxChanged = useCallback(() => {
+        setIsTelegramEnabled(!isTelegramEnabled);
+    }, [isTelegramEnabled]);
+
+    const handleTelegramGroupIdChanged = useCallback((event) => {
+        setTelegramGroupdId(event.target.value);
+    }, [setTelegramGroupdId]);
+
     return (
         <div>
             <FormControl className={classNames(className, classes.formWrapper)}>
@@ -240,6 +251,47 @@ function LinksForm({
                             </Tooltip>
                         )}
                     </div>
+                    <FormControlLabel
+                        control={<Checkbox name="enable_telegram" onChange={handleTelegramCheckboxChanged} checked={isTelegramEnabled} />}
+                        label={intl.formatMessage({ id: 'enable_telegram' })}
+                    />
+                    {isTelegramEnabled && (
+                        <div>
+                            <Typography
+                                className={classes.paragraph}
+                                color="textPrimary"
+                                variant="body1"
+                            >
+                                {intl.formatMessage({ id: 'telegram_group_id_description' },
+                                    {
+                                        telegram_link: (message) => {
+                                            return (
+                                                <a
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={message}
+                                                >
+                                                    {message}
+                                                </a>
+                                            );
+                                        }
+                                    })}
+                            </Typography>
+                            <Tooltip
+                                placement="right"
+                                title={intl.formatMessage({ id: 'telegram_group_id_description_short' })}
+                            >
+                                <TextField
+                                    name="telegram_group_id"
+                                    type="text"
+                                    label={intl.formatMessage({ id: 'telegram_group_id' })}
+                                    value={telegramGroupdId}
+                                    onChange={handleTelegramGroupIdChanged}
+                                    fullWidth
+                                />
+                            </Tooltip>
+                        </div>
+                    )}
                 </div>
                 <GoogleFormProvider {...formMethods}>
                     <form onSubmit={handleSubmit(onFormSubmit)}>

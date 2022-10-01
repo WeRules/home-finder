@@ -31,6 +31,10 @@
     "copy": "Copiar",
     "add_more_links": "Adicionar mais links",
     "remove_previous_link": "Remover link anterior",
+    "enable_telegram": "Ativar Telegram?",
+    "telegram_group_id": "Group ID do seu grupo do Telegram",
+    "telegram_group_id_description": "Fill in the Group ID of the Telegram group you would like to receive notifications of new houses. Don't know how to get the Telegram Group ID? Check <telegram_link>this link</telegram_link>.",
+    "telegram_group_id_description_short": "Preencha o Group ID do grupo do Telegram que você gostaria de receber as notificações de novas casas",
     "notfound": {
         "title": "404: Não encontrado",
         "header": "404 NÃO ENCONTRADO",

@@ -31,6 +31,10 @@
     "copy": "Copy",
     "add_more_links": "Add more links",
     "remove_previous_link": "Remove previous link",
+    "enable_telegram": "Enable Telegram?",
+    "telegram_group_id": "Telegram group ID",
+    "telegram_group_id_description": "Fill in the Group ID of the Telegram group you would like to receive notifications of new houses. Don't know how to get the Telegram Group ID? Check <telegram_link>this link</telegram_link>.",
+    "telegram_group_id_description_short": "Fill in the Group ID of the Telegram group you would like to receive notifications of new houses",
     "notfound": {
         "title": "404: Not found",
         "header": "404 NOT FOUND",
