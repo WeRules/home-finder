@@ -68,6 +68,8 @@ There's also a chance that any of the websites can block the user-agent from scr
 ![ScreenShot](https://raw.githubusercontent.com/WeRules/home-finder/main/screenshots/screenshot_2.png)
 
 ## Release Notes
+- **v0.3.2:**
+    - Add missing contact page
 - **v0.3.1:**
     - Fix button color on light theme
 - **v0.3.0:**
