@@ -1,9 +1,12 @@
+### Update 2024
+This is a free and open source project, it seems that the scraping isn't working anymore and I don't intent to fix it. Feel free to fork this project and change the code to your needs. Cheers!
+
 # Home Finder
 
 ![ScreenShot](https://raw.githubusercontent.com/WeRules/home-finder/main/content/assets/base_site_image.png)
 
 ## What is Home Finder?
-Home Finder is a free open-source project designed to help people find houses to buy or rent in the Netherlands. The housing market in some Dutch cities is extremely competitive, especially Amsterdam, and being able to apply for a house as soon as they're listed will boost or chances or getting a house.
+Home Finder is a free open-source project designed to help people find houses to buy or rent in the Netherlands. The housing market in some Dutch cities is extremely competitive, especially Amsterdam, and being able to apply for a house as soon as they're listed will boost or chances of getting a house.
 
 You can read more about this project on [this blog post](https://pablo.gg/en/blog/coding/creating-a-startup-with-github-actions-and-google-forms/).
 
